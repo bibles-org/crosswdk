@@ -45,8 +45,6 @@ This project includes a lightweight header library designed to provide essential
 
 ## Adding a kernel driver target
 
-Use the function:
-
 ```cmake
 wdk_add_driver(<target_name> source1 [source2 ...])
 ```
@@ -56,7 +54,7 @@ This creates an executable with `.sys` as an extension, sets compiler and linker
 Example:
 
 ```cmake
-wdk_add_driver(${PROJECT_NAME} Main.cpp)
+wdk_add_driver(${PROJECT_NAME} main.cpp)
 ```
 
 ---
@@ -74,4 +72,4 @@ target_link_libraries(${PROJECT_NAME} WDK::FLTMGR)
 ---
 
 ## Credit
-This project is a heavily modified version of [@SergiusTheBest/FindWDK](https://github.com/SergiusTheBest/FindWDK).
+This project is a heavily modified and rebranded version of [@SergiusTheBest/FindWDK](https://github.com/SergiusTheBest/FindWDK).
