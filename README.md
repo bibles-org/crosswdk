@@ -1,6 +1,6 @@
 # CrossWDK
 
-CMake module for (cross)compiling drivers with the Windows Development Kit.
+CMake module for (cross)compiling Windows drivers with the WDK.
 
 ---
 
