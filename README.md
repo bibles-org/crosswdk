@@ -25,7 +25,7 @@ Add the path to `CrossWDK.cmake` to your `CMAKE_MODULE_PATH`, then:
 set(WDK_LIB_PATH "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/km/x64")
 
 list(APPEND CMAKE_MODULE_PATH "<path_to_CrossWDK>")
-find_package(WDK REQUIRED)
+find_package(CrossWDK REQUIRED)
 ```
 
 **How CrossWDK locates libraries:**
