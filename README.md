@@ -21,9 +21,10 @@ CrossWDK allows building Windows kernel drivers using the WDK and CMake.
 Add the path to `FindCrossWDK.cmake` to your `CMAKE_MODULE_PATH`, then:
 
 ```cmake
-# Specify the path to the WDK libraries if it is not in a common path in C: or D:
-# Or when you are compiling on linux.
-set(WDK_LIB_PATH "Z:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/km/x64")
+# Specify the path to the WDK libraries if:
+# - it is not installed in a common path like in C: or D: in the case of windows.
+# - you are compiling on linux so you must specify the path manually.
+set(WDK_LIB_PATH "/usr/wdk/x64/lib/")
 
 list(APPEND CMAKE_MODULE_PATH "<path_to_CrossWDK>")
 find_package(CrossWDK REQUIRED)
@@ -50,7 +51,7 @@ This project includes a lightweight header library designed to provide essential
 wdk_add_driver(<target_name> source1 [source2 ...])
 ```
 
-This creates an executable with `.sys` as an extension, sets compiler and linker flags, links against `WDK::NTOSKRNL` by default, and includes a header library shipped with this project.
+This creates an executable with `.sys` as the file extension, sets compiler and linker flags, links against `WDK::NTOSKRNL` by default, and includes a header library shipped with this project.
 
 Example:
 
