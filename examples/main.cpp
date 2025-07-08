@@ -10,7 +10,9 @@ static arch::address translation_example(const arch::address pml4, const arch::a
         return nullptr;
     }
 
-    const auto pdpe_large = static_cast<arch::pdpe_1gb*>(static_cast<arch::address>(pml4e.page_frame_number) << 12)[linear_address.p3_index];
+    const auto pdpe_large = static_cast<arch::pdpe_1gb*>(
+            static_cast<arch::address>(pml4e.page_frame_number) << 12
+    )[linear_address.p3_index];
     if (pml4e.present == false) {
         return nullptr;
     }
@@ -21,7 +23,9 @@ static arch::address translation_example(const arch::address pml4, const arch::a
     }
 
     const arch::pdpe pdpe{pdpe_large};
-    const auto pde_large = static_cast<arch::pde_2mb*>(static_cast<arch::address>(pdpe.page_frame_number) << 12)[linear_address.p2_index];
+    const auto pde_large = static_cast<arch::pde_2mb*>(
+            static_cast<arch::address>(pdpe.page_frame_number) << 12
+    )[linear_address.p2_index];
     if (pde_large.present == false) {
         return nullptr;
     }
@@ -32,7 +36,8 @@ static arch::address translation_example(const arch::address pml4, const arch::a
     }
 
     const arch::pde pde{pde_large};
-    const auto pte = static_cast<arch::pte*>(static_cast<arch::address>(pde.page_frame_number) << 12)[linear_address.p1_index];
+    const auto pte =
+            static_cast<arch::pte*>(static_cast<arch::address>(pde.page_frame_number) << 12)[linear_address.p1_index];
     if (pte.present == false) {
         return nullptr;
     }
@@ -41,7 +46,7 @@ static arch::address translation_example(const arch::address pml4, const arch::a
     return (static_cast<arch::address>(pte.page_frame_number) << 12) + linear_address.offset;
 }
 
-extern "C" win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING*) {
+extern win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING*) {
     win::print_ex(0, 0, "Processor count: %u\n", win::KeQueryActiveProcessorCount());
 
     driver_object->DriverUnload = [](win::DRIVER_OBJECT*) static {

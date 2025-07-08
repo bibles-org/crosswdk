@@ -3,7 +3,8 @@
 
 namespace arch {
     template <typename T>
-    concept is_address = std::is_trivially_copyable_v<T> && sizeof(T) <= 8 && (std::is_pointer_v<T> || std::is_integral_v<T> || std::is_null_pointer_v<T>);
+    concept is_address = std::is_trivially_copyable_v<T> && sizeof(T) <= 8 &&
+                         (std::is_pointer_v<T> || std::is_integral_v<T> || std::is_null_pointer_v<T>);
 
     struct address {
     private:
