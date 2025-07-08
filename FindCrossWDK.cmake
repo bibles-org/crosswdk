@@ -85,7 +85,7 @@ if (USING_LLD_LINK)
             -nostdlib
             -nodefaultlibs
             "-Xlinker"
-            "/ENTRY:DriverEntry"
+            "/ENTRY:_start"
     )
 else ()
     set(WDK_LINK_FLAGS
