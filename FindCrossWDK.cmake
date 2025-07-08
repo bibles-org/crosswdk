@@ -91,7 +91,7 @@ else ()
     set(WDK_LINK_FLAGS
             -nostdlib
             -nodefaultlibs
-            -Wl,-e,DriverEntry
+            -Wl,-e,_start
             -Wl,--stack=16384
     )
 endif ()
@@ -110,7 +110,10 @@ endif()
 function(wdk_add_driver target_name)
     set(sources ${ARGN})
 
-    add_executable(${target_name} ${sources})
+    add_executable(${target_name}
+            ${sources}
+            ${CROSSWDK_DIR}/main.cpp
+    )
     set_target_properties(${target_name} PROPERTIES SUFFIX ".sys")
 
     target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
