@@ -14,7 +14,7 @@ void run_static_initializers() {
     }
 }
 
-extern win::ntstatus DriverEntry(win::DRIVER_OBJECT*, win::UNICODE_STRING*);
+win::ntstatus DriverEntry(win::DRIVER_OBJECT*, win::UNICODE_STRING*);
 
 extern "C"
 win::ntstatus _start(win::DRIVER_OBJECT* a1, win::UNICODE_STRING* a2) {

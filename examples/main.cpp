@@ -46,7 +46,7 @@ static arch::address translation_example(const arch::address pml4, const arch::a
     return (static_cast<arch::address>(pte.page_frame_number) << 12) + linear_address.offset;
 }
 
-extern win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING*) {
+win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING*) {
     win::print_ex(0, 0, "Processor count: %u\n", win::KeQueryActiveProcessorCount());
 
     driver_object->DriverUnload = [](win::DRIVER_OBJECT*) static {
