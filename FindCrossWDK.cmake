@@ -74,6 +74,15 @@ set(WDK_COMPILE_FLAGS
         -Wstrict-aliasing=2
 )
 
+# reference:
+# https://clang.llvm.org/docs/Modules.html#command-line-parameters
+set(WDK_MODULE_COMPILE_FLAGS
+        -std=c++23
+        -fmodules
+        -fbuiltin-module-map
+        -fmodules-cache-path=${CMAKE_BINARY_DIR}/modules_cache
+)
+
 if (CMAKE_LINKER MATCHES ".*lld-link.*")
     set(USING_LLD_LINK TRUE)
 else ()
@@ -106,27 +115,53 @@ if(NOT WIN32)
     )
 endif()
 
-
 function(wdk_add_driver target_name)
-    set(sources ${ARGN})
-
-    add_executable(${target_name}
-            ${sources}
-            ${CROSSWDK_DIR}/main.cpp
+    # wdk_add_driver(
+    #   something.cpp
+    #   SOURCES something.cpp
+    #   MODULES something.cppm
+    # )
+    cmake_parse_arguments(WDK_DRIVER
+        ""
+        ""
+        "SOURCES;MODULES"
+        ${ARGN}
     )
-    set_target_properties(${target_name} PROPERTIES SUFFIX ".sys")
 
-    target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
+    if(NOT WDK_DRIVER_SOURCES AND WDK_DRIVER_UNPARSED_ARGUMENTS)
+        set(WDK_DRIVER_SOURCES ${WDK_DRIVER_UNPARSED_ARGUMENTS})
+    endif()
+ 
+    add_executable(${target_name}
+        ${WDK_DRIVER_SOURCES} 
+        ${CROSSWDK_DIR}/main.cpp
+    )
+
+    if(WDK_DRIVER_MODULES)
+        target_sources(${target_name} PUBLIC
+            FILE_SET CXX_MODULES FILES ${WDK_DRIVER_MODULES}
+        )
+
+        target_compile_options(${target_name} PRIVATE
+            ${WDK_COMPILE_FLAGS}
+            ${WDK_MODULE_COMPILE_FLAGS}
+        )
+
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/modules_cache)
+    else()
+        target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
+    endif()
+
+    set_target_properties(${target_name} PROPERTIES
+        SUFFIX ".sys"
+        CXX_STANDARD 23
+        CXX_STANDARD_REQUIRED ON
+    )
 
     target_link_options(${target_name} PRIVATE ${WDK_LINK_FLAGS})
+    target_link_libraries(${target_name} WDK::NTOSKRNL)
 
-    target_link_libraries(${target_name}
-            WDK::NTOSKRNL
-    )
     target_include_directories(${target_name} SYSTEM PRIVATE
-            "${CROSSWDK_DIR}/include"
-            # removed due to incompatibility
-            # "${WDK_ROOT}/Include/${WDK_INC_VERSION}/shared"
-            # "${WDK_ROOT}/Include/${WDK_INC_VERSION}/km"
+        "${CROSSWDK_DIR}/include"
     )
 endfunction()
