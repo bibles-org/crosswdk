@@ -37,7 +37,7 @@ namespace arch {
         constexpr address() = default;
 
         constexpr address(const is_address auto& from) {
-            return assign(from);
+            assign(from);
         }
 
         constexpr address& operator=(const is_address auto& from) {
