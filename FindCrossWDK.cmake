@@ -75,12 +75,6 @@ set(WDK_COMPILE_FLAGS
 )
 
 if (CMAKE_LINKER MATCHES ".*lld-link.*")
-    set(USING_LLD_LINK TRUE)
-else ()
-    set(USING_LLD_LINK FALSE)
-endif ()
-
-if (USING_LLD_LINK)
     set(WDK_LINK_FLAGS
             -nostdlib
             -nodefaultlibs
@@ -106,27 +100,50 @@ if(NOT WIN32)
     )
 endif()
 
-
 function(wdk_add_driver target_name)
-    set(sources ${ARGN})
-
-    add_executable(${target_name}
-            ${sources}
-            ${CROSSWDK_DIR}/main.cpp
+    # wdk_add_driver(
+    #   source1.cpp
+    #   SOURCES source2.cpp
+    #   MODULES module1.[cpp/ixx/cppm/...]
+    # )
+    cmake_parse_arguments(WDK_DRIVER
+        ""
+        ""
+        "SOURCES;MODULES"
+        ${ARGN}
     )
-    set_target_properties(${target_name} PROPERTIES SUFFIX ".sys")
+
+    if(NOT WDK_DRIVER_SOURCES AND WDK_DRIVER_UNPARSED_ARGUMENTS)
+        set(WDK_DRIVER_SOURCES ${WDK_DRIVER_UNPARSED_ARGUMENTS})
+    endif()
+ 
+    add_executable(${target_name}
+        ${WDK_DRIVER_SOURCES} 
+        ${CROSSWDK_DIR}/main.cpp
+    )
 
     target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
 
-    target_link_options(${target_name} PRIVATE ${WDK_LINK_FLAGS})
+    if(WDK_DRIVER_MODULES)
+        set_property(TARGET ${target_name} PROPERTY CXX_SCAN_FOR_MODULES ON)
 
-    target_link_libraries(${target_name}
-            WDK::NTOSKRNL
+        target_compile_options(${target_name} PRIVATE ${WDK_MODULE_COMPILE_FLAGS})
+
+        target_sources(${target_name} PUBLIC
+            FILE_SET CXX_MODULES FILES ${WDK_DRIVER_MODULES}
+        )
+    endif()
+
+    set_target_properties(${target_name} PROPERTIES
+        SUFFIX ".sys"
+        CXX_STANDARD 23
+        CXX_STANDARD_REQUIRED ON
     )
+
+    target_link_options(${target_name} PRIVATE ${WDK_LINK_FLAGS})
+    target_link_libraries(${target_name} WDK::NTOSKRNL)
+
     target_include_directories(${target_name} SYSTEM PRIVATE
-            "${CROSSWDK_DIR}/include"
-            # removed due to incompatibility
-            # "${WDK_ROOT}/Include/${WDK_INC_VERSION}/shared"
-            # "${WDK_ROOT}/Include/${WDK_INC_VERSION}/km"
+        "${CROSSWDK_DIR}/include"
     )
 endfunction()

@@ -9,6 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 wdk_add_driver(example_driver
         main.cpp
+
+        MODULES memory.cpp
 )
 
 target_compile_options(example_driver PRIVATE
