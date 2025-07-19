@@ -74,22 +74,7 @@ set(WDK_COMPILE_FLAGS
         -Wstrict-aliasing=2
 )
 
-# reference:
-# https://clang.llvm.org/docs/Modules.html#command-line-parameters
-set(WDK_MODULE_COMPILE_FLAGS
-        -std=c++23
-        -fmodules
-        -fbuiltin-module-map
-        -fmodules-cache-path=${CMAKE_BINARY_DIR}/modules_cache
-)
-
 if (CMAKE_LINKER MATCHES ".*lld-link.*")
-    set(USING_LLD_LINK TRUE)
-else ()
-    set(USING_LLD_LINK FALSE)
-endif ()
-
-if (USING_LLD_LINK)
     set(WDK_LINK_FLAGS
             -nostdlib
             -nodefaultlibs
@@ -117,9 +102,9 @@ endif()
 
 function(wdk_add_driver target_name)
     # wdk_add_driver(
-    #   something.cpp
-    #   SOURCES something.cpp
-    #   MODULES something.cppm
+    #   source1.cpp
+    #   SOURCES source2.cpp
+    #   MODULES module1.[cpp/ixx/cppm/...]
     # )
     cmake_parse_arguments(WDK_DRIVER
         ""
