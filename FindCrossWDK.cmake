@@ -137,19 +137,16 @@ function(wdk_add_driver target_name)
         ${CROSSWDK_DIR}/main.cpp
     )
 
+    target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
+
     if(WDK_DRIVER_MODULES)
+        set_property(TARGET ${target_name} PROPERTY CXX_SCAN_FOR_MODULES ON)
+
+        target_compile_options(${target_name} PRIVATE ${WDK_MODULE_COMPILE_FLAGS})
+
         target_sources(${target_name} PUBLIC
             FILE_SET CXX_MODULES FILES ${WDK_DRIVER_MODULES}
         )
-
-        target_compile_options(${target_name} PRIVATE
-            ${WDK_COMPILE_FLAGS}
-            ${WDK_MODULE_COMPILE_FLAGS}
-        )
-
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/modules_cache)
-    else()
-        target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
     endif()
 
     set_target_properties(${target_name} PROPERTIES
