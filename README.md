@@ -48,7 +48,10 @@ This project includes a lightweight header library designed to provide essential
 ## Adding a kernel driver target
 
 ```cmake
-wdk_add_driver(<target_name> source1 [source2 ...])
+wdk_add_driver(<target_name> 
+  SOURCES [source_files...] 
+  MODULES [module_files...]
+)
 ```
 
 This creates an executable with `.sys` as the file extension, sets compiler and linker flags, links against `WDK::NTOSKRNL` by default, and includes a header library shipped with this project.
