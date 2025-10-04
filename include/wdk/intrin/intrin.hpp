@@ -360,5 +360,13 @@ namespace intrin {
                      : [port] "Nd"(port));
         return value;
     }
+
+    ALWAYS_INLINE std::array<std::uint32_t, 4> cpuid(std::uint32_t leaf, std::uint32_t subleaf = 0) {
+    std::array<std::uint32_t, 4> result{};
+    asm volatile("cpuid;"
+                    : "=a"(result[0]), "=b"(result[1]), "=c"(result[2]), "=d"(result[3])
+                    : "a"(leaf), "c"(subleaf));
+    return result;
+    } 
 } // namespace intrin
 #endif // WDK_INTRINSICS_HPP
