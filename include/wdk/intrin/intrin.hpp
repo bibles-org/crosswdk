@@ -1,9 +1,13 @@
 #ifndef WDK_INTRINSICS_HPP
 #define WDK_INTRINSICS_HPP
+
 #include "../arch/arch.hpp"
 #include "../utils.hpp"
+
 #include "amd.hpp"
 #include "intel.hpp"
+
+#include <array>
 
 namespace intrin {
     ALWAYS_INLINE void halt() {
