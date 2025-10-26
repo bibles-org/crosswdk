@@ -1884,6 +1884,13 @@ namespace win {
         LIST_ENTRY* Blink;
     };
 
+    struct AFFINITY_EX {
+        std::uint16_t Count;
+        std::uint16_t Size;
+        std::uint32_t Reserved;
+        std::uint64_t Bitmap[20];
+    };
+
     struct OSVERSIONINFO {
         std::uint32_t OSVersionInfoSize;
         std::uint32_t MajorVersion;

@@ -19,6 +19,12 @@ namespace win {
                               fmt, std::forward<Ts>(args)...);
         }
 
+    ALWAYS_INLINE bool send_nmi(const std::uint32_t processor_index) {
+        win::AFFINITY_EX affinity{};
+        win::KeInitializeAffinityEx(&affinity);
+        win::KeAddProcessorAffinityEx(&affinity, processor_index);
+        return win::HalSendNMI(&affinity);
+    }
 
     template <std::predicate<std::uint32_t> T>
     ALWAYS_INLINE bool iterate_active_processors(T&& cb) {
