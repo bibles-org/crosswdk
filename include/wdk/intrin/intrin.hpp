@@ -150,10 +150,8 @@ namespace intrin {
         return value;
     }
 
-    `
 
-            ALWAYS_INLINE void
-            write_dr1(arch::address value) {
+    ALWAYS_INLINE void write_dr1(arch::address value) {
         asm volatile("mov %[val], %%dr1;"
                      :
                      : [val] "r"(value));
