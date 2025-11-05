@@ -45,20 +45,20 @@ namespace win {
 } // namespace win
 
 // TODO: https://en.cppreference.com/w/cpp/memory/new/operator_new.html
-inline void* operator new(std::size_t n) noexcept {
+inline void* operator new(std::size_t n) {
     return win::ExAllocatePoolWithTag(win::pool_type::NonPagedPoolNx, n, win::pool_tag);
 }
 
-inline void* operator new[](std::size_t n) noexcept {
+inline void* operator new[](std::size_t n) {
     return win::ExAllocatePoolWithTag(win::pool_type::NonPagedPoolNx, n, win::pool_tag);
 }
 
-inline void operator delete(void* p) noexcept {
+inline void operator delete(void* p) {
     if (p)
         win::ExFreePool(p);
 }
 
-inline void operator delete[](void* p) noexcept {
+inline void operator delete[](void* p) {
     if (p)
         win::ExFreePool(p);
 }

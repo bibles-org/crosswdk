@@ -4,10 +4,10 @@
 import memory;
 
 win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING*) {
-    win::print_ex(0, 0, "Processor count: %u\n", win::KeQueryActiveProcessorCount());
+    win::print(0, 0, "Processor count: %u\n", win::KeQueryActiveProcessorCount());
 
     driver_object->DriverUnload = [](win::DRIVER_OBJECT*) static {
-        win::print_ex(0, 0, "DriverUnload\n");
+        win::print(0, 0, "DriverUnload\n");
         return win::ntstatus::success;
     };
 
@@ -27,11 +27,11 @@ win::ntstatus DriverEntry(win::DRIVER_OBJECT* driver_object, win::UNICODE_STRING
     // address <-> void* implicitly
     arch::address entrypoint{nullptr};
     entrypoint = &DriverEntry;
-    win::print_ex(0, 0, "Running from: %p\n", entrypoint);
+    win::print(0, 0, "Running from: %p\n", entrypoint);
 
     auto idtr = intrin::sidt();
     for (auto& idte : idtr) {
-        win::print_ex(0, 0, "%p\n", idte.get_handler());
+        win::print(0, 0, "%p\n", idte.get_handler());
     }
 
     return win::ntstatus::success;
