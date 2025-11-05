@@ -26,11 +26,11 @@ namespace win {
 
     std::uint64_t KeSetSystemAffinityThreadEx(std::uint64_t affinity);
 
-    void KeInitializeAffinityEx(AFFINITY_EX* affinity);
+    void KeInitializeAffinityEx(AFFINITY_EX& affinity);
 
-    void KeAddProcessorAffinityEx(AFFINITY_EX* affinity, std::uint32_t processor_index);
+    void KeAddProcessorAffinityEx(AFFINITY_EX& affinity, std::uint32_t processor_index);
 
-    bool HalSendNMI(AFFINITY_EX* affinity);
+    void HalSendNMI(AFFINITY_EX& affinity);
 
     void KeRevertToUserAffinityThreadEx(std::uint64_t affinity);
 
