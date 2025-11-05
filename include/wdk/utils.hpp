@@ -41,7 +41,7 @@
     constexpr TYPE& operator=(TYPE&&) = default;                                                                       \
     ~TYPE() = default;                                                                                                 \
                                                                                                                        \
-    explicit(false) constexpr TYPE(std::uint64_t v) noexcept : VALUE_NAME(v) {                                         \
+    constexpr TYPE(std::uint64_t v) noexcept : VALUE_NAME(v) {                                         \
     }                                                                                                                  \
                                                                                                                        \
     constexpr TYPE& operator=(std::uint64_t v) noexcept {                                                              \
@@ -49,7 +49,7 @@
         return *this;                                                                                                  \
     }                                                                                                                  \
                                                                                                                        \
-    explicit(false) constexpr operator std::uint64_t() const noexcept {                                                \
+    constexpr operator std::uint64_t() const noexcept {                                                \
         return VALUE_NAME;                                                                                             \
     }                                                                                                                  \
                                                                                                                        \
@@ -58,7 +58,7 @@
 
 #define CROSSWDK_BITFIELD_PROXY(MEMBER, NAME, RET, START, END)                                                         \
     [[nodiscard]]                                                                                                      \
-    constexpr auto NAME(this auto& self) noexcept {                                                                    \
+    constexpr auto NAME(this auto&& self) noexcept {                                                                    \
         return crosswdk::utils::make_bitfield<RET, START, END>(self.MEMBER);                                           \
     }
 
@@ -103,8 +103,8 @@ namespace crosswdk::utils {
 
         storage_type& word;
 
-        explicit(false) constexpr operator value_t() const noexcept {
-            const storage_t raw = (static_cast<storage_t>(word) & field_mask) >> start_index;
+        constexpr operator value_t() const noexcept {
+            const auto raw = (static_cast<storage_t>(word) & field_mask) >> start_index;
             return static_cast<value_t>(static_cast<value_base_t>(raw));
         }
 
