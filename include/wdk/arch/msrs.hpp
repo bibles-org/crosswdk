@@ -9,17 +9,18 @@ namespace arch {
         MAKE_SCALAR_CONVERTIBLE(efer, std::uint64_t)
         static constexpr std::uint32_t number = 0xC000'0080;
 
-        std::uint64_t syscall_extensions                  : 1 {};
-        std::uint64_t reserved1                           : 7 {};
-        std::uint64_t long_mode                           : 1 {};
-        std::uint64_t reserved2                           : 1 {};
-        std::uint64_t long_mode_active                    : 1 {};
-        std::uint64_t no_execute                          : 1 {};
-        std::uint64_t amd64_svm                           : 1 {};
-        std::uint64_t amd64_long_mode_segment_limit       : 1 {};
-        std::uint64_t amd64_fast_fxsave_fxrstor           : 1 {};
-        std::uint64_t amd64_translation_cache_extension   : 1 {};
-        std::uint64_t amd64_execute_only_pte              : 1 {}; // this is xotext, allows any given pte to be marked as execute only
+        std::uint64_t syscall_extensions                : 1 {};
+        std::uint64_t reserved1                         : 7 {};
+        std::uint64_t long_mode                         : 1 {};
+        std::uint64_t reserved2                         : 1 {};
+        std::uint64_t long_mode_active                  : 1 {};
+        std::uint64_t no_execute                        : 1 {};
+        std::uint64_t amd64_svm                         : 1 {};
+        std::uint64_t amd64_long_mode_segment_limit     : 1 {};
+        std::uint64_t amd64_fast_fxsave_fxrstor         : 1 {};
+        std::uint64_t amd64_translation_cache_extension : 1 {};
+        std::uint64_t amd64_execute_only_pte            : 1 {
+        }; // this is xotext, allows any given pte to be marked as execute only
         std::uint64_t amd64_mcommit                       : 1 {};
         std::uint64_t amd64_interruptible_wbinvd_wbnoinvd : 1 {};
         std::uint64_t reserved3                           : 1 {};
