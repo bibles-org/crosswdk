@@ -3,7 +3,7 @@
 using ctor_func = void (*)();
 extern "C" ctor_func __CTOR_LIST__[];
 
-void run_static_initializers() {
+static void run_static_initializers() {
     for (std::size_t i = 1;; ++i) {
         const auto ctor = __CTOR_LIST__[i];
         if (ctor == nullptr) {
