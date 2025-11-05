@@ -11,7 +11,7 @@ namespace win {
         return win::DbgPrint(fmt, std::forward<Ts>(args)...);
     }
 
-    template <utils::is_enum_or_integral T1, utils::is_enum_or_integral T2, typename... Ts>
+    template <crosswdk::utils::is_enum_or_integral T1, crosswdk::utils::is_enum_or_integral T2, typename... Ts>
         requires(sizeof(T1) <= sizeof(std::uint32_t)) && (sizeof(T2) <= sizeof(std::uint32_t))
     ALWAYS_INLINE ntstatus print(T1 component_id, T2 level, const char* fmt, Ts&&... args) {
         return win::DbgPrintEx(
