@@ -277,72 +277,69 @@ namespace arch {
 
     static_assert(sizeof(address) == sizeof(std::uint64_t), "arch::address size is incorrect");
 
-    struct page_entry_4kb {
-        MAKE_SCALAR_CONVERTIBLE(page_entry_4kb, std::uint64_t)
+    struct page_entry_4kb : crosswdk::utils::bits64 {
+        using crosswdk::utils::bits64::bits64;
+        using crosswdk::utils::bits64::operator=;
 
-        std::uint64_t present               : 1 {};
-        std::uint64_t write                 : 1 {};
-        std::uint64_t user                  : 1 {};
-        std::uint64_t write_through         : 1 {};
-        std::uint64_t cache_disable         : 1 {};
-        std::uint64_t accessed              : 1 {};
-        std::uint64_t dirty                 : 1 {};
-        std::uint64_t page_attribute_table  : 1 {};
-        std::uint64_t global                : 1 {};
-        std::uint64_t ignored1              : 3 {};
-        std::uint64_t page_frame_number     : 40 {};
-        std::uint64_t ignored2              : 7 {};
-        std::uint64_t memory_protection_key : 4 {};
-        std::uint64_t execute_disable       : 1 {};
-    } __attribute__((packed));
+        CROSSWDK_BITFIELD_PROXY1(value, present, bool, 0);
+        CROSSWDK_BITFIELD_PROXY1(value, write, bool, 1);
+        CROSSWDK_BITFIELD_PROXY1(value, user, bool, 2);
+        CROSSWDK_BITFIELD_PROXY1(value, write_through, bool, 3);
+        CROSSWDK_BITFIELD_PROXY1(value, cache_disable, bool, 4);
+        CROSSWDK_BITFIELD_PROXY1(value, accessed, bool, 5);
+        CROSSWDK_BITFIELD_PROXY1(value, dirty, bool, 6);
+        CROSSWDK_BITFIELD_PROXY1(value, page_attribute_table, bool, 7);
+        CROSSWDK_BITFIELD_PROXY1(value, global, bool, 8);
+        CROSSWDK_BITFIELD_PROXY(value, ignored1, std::uint8_t, 9, 11);
+        CROSSWDK_BITFIELD_PROXY(value, page_frame_number, std::uint64_t, 12, 51);
+        CROSSWDK_BITFIELD_PROXY(value, ignored2, std::uint8_t, 52, 58);
+        CROSSWDK_BITFIELD_PROXY(value, memory_protection_key, std::uint8_t, 59, 62);
+        CROSSWDK_BITFIELD_PROXY1(value, execute_disable, bool, 63);
+    };
 
-    static_assert(sizeof(page_entry_4kb) == sizeof(std::uint64_t), "arch::page_entry_4kb size is incorrect");
+    struct page_entry_2mb : crosswdk::utils::bits64 {
+        using crosswdk::utils::bits64::bits64;
+        using crosswdk::utils::bits64::operator=;
 
-    struct page_entry_2mb {
-        MAKE_SCALAR_CONVERTIBLE(page_entry_2mb, std::uint64_t)
+        CROSSWDK_BITFIELD_PROXY1(value, present, bool, 0);
+        CROSSWDK_BITFIELD_PROXY1(value, write, bool, 1);
+        CROSSWDK_BITFIELD_PROXY1(value, user, bool, 2);
+        CROSSWDK_BITFIELD_PROXY1(value, write_through, bool, 3);
+        CROSSWDK_BITFIELD_PROXY1(value, cache_disable, bool, 4);
+        CROSSWDK_BITFIELD_PROXY1(value, accessed, bool, 5);
+        CROSSWDK_BITFIELD_PROXY1(value, dirty, bool, 6);
+        CROSSWDK_BITFIELD_PROXY1(value, page_size, bool, 7);
+        CROSSWDK_BITFIELD_PROXY1(value, global, bool, 8);
+        CROSSWDK_BITFIELD_PROXY(value, ignored1, std::uint8_t, 9, 11);
+        CROSSWDK_BITFIELD_PROXY1(value, page_attribute_table, bool, 12);
+        CROSSWDK_BITFIELD_PROXY(value, must_be_zero, std::uint8_t, 13, 20);
+        CROSSWDK_BITFIELD_PROXY(value, page_frame_number, std::uint64_t, 21, 51);
+        CROSSWDK_BITFIELD_PROXY(value, ignored2, std::uint8_t, 52, 58);
+        CROSSWDK_BITFIELD_PROXY(value, memory_protection_key, std::uint8_t, 59, 62);
+        CROSSWDK_BITFIELD_PROXY1(value, execute_disable, bool, 63);
+    };
 
-        std::uint64_t present               : 1 {};
-        std::uint64_t write                 : 1 {};
-        std::uint64_t user                  : 1 {};
-        std::uint64_t write_through         : 1 {};
-        std::uint64_t cache_disable         : 1 {};
-        std::uint64_t accessed              : 1 {};
-        std::uint64_t dirty                 : 1 {};
-        std::uint64_t page_size             : 1 {}; // enabled for non 4kb entries
-        std::uint64_t global                : 1 {};
-        std::uint64_t ignored1              : 3 {};
-        std::uint64_t page_attribute_table  : 1 {};
-        std::uint64_t must_be_zero          : 8 {};
-        std::uint64_t page_frame_number     : 31 {};
-        std::uint64_t ignored2              : 7 {};
-        std::uint64_t memory_protection_key : 4 {};
-        std::uint64_t execute_disable       : 1 {};
-    } __attribute__((packed));
+    struct page_entry_1gb : crosswdk::utils::bits64 {
+        using crosswdk::utils::bits64::bits64;
+        using crosswdk::utils::bits64::operator=;
 
-    static_assert(sizeof(page_entry_2mb) == sizeof(std::uint64_t), "arch::page_entry_2mb size is incorrect");
-
-    struct page_entry_1gb {
-        MAKE_SCALAR_CONVERTIBLE(page_entry_1gb, std::uint64_t)
-
-        std::uint64_t present               : 1 {};
-        std::uint64_t write                 : 1 {};
-        std::uint64_t user                  : 1 {};
-        std::uint64_t write_through         : 1 {};
-        std::uint64_t cache_disable         : 1 {};
-        std::uint64_t accessed              : 1 {};
-        std::uint64_t dirty                 : 1 {};
-        std::uint64_t page_size             : 1 {}; // enabled for non 4kb entries
-        std::uint64_t global                : 1 {};
-        std::uint64_t ignored1              : 3 {};
-        std::uint64_t page_attribute_table  : 1 {};
-        std::uint64_t must_be_zero          : 17 {};
-        std::uint64_t page_frame_number     : 22 {};
-        std::uint64_t ignored2              : 7 {};
-        std::uint64_t memory_protection_key : 4 {};
-        std::uint64_t execute_disable       : 1 {};
-    } __attribute__((packed));
-
-    static_assert(sizeof(page_entry_1gb) == sizeof(std::uint64_t), "arch::page_entry_1gb size is incorrect");
+        CROSSWDK_BITFIELD_PROXY1(value, present, bool, 0);
+        CROSSWDK_BITFIELD_PROXY1(value, write, bool, 1);
+        CROSSWDK_BITFIELD_PROXY1(value, user, bool, 2);
+        CROSSWDK_BITFIELD_PROXY1(value, write_through, bool, 3);
+        CROSSWDK_BITFIELD_PROXY1(value, cache_disable, bool, 4);
+        CROSSWDK_BITFIELD_PROXY1(value, accessed, bool, 5);
+        CROSSWDK_BITFIELD_PROXY1(value, dirty, bool, 6);
+        CROSSWDK_BITFIELD_PROXY1(value, page_size, bool, 7);
+        CROSSWDK_BITFIELD_PROXY1(value, global, bool, 8);
+        CROSSWDK_BITFIELD_PROXY(value, ignored1, std::uint8_t, 9, 11);
+        CROSSWDK_BITFIELD_PROXY1(value, page_attribute_table, bool, 12);
+        CROSSWDK_BITFIELD_PROXY(value, must_be_zero, std::uint32_t, 13, 29);
+        CROSSWDK_BITFIELD_PROXY(value, page_frame_number, std::uint64_t, 30, 51);
+        CROSSWDK_BITFIELD_PROXY(value, ignored2, std::uint8_t, 52, 58);
+        CROSSWDK_BITFIELD_PROXY(value, memory_protection_key, std::uint8_t, 59, 62);
+        CROSSWDK_BITFIELD_PROXY1(value, execute_disable, bool, 63);
+    };
 
     using pml4e = page_entry_4kb;
     using pdpe = page_entry_4kb;

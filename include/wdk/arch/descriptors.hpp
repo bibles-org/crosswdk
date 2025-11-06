@@ -79,7 +79,8 @@ namespace arch {
         std::uint32_t reserved2 : 32 {};
 
         address get_handler() const {
-            return static_cast<std::uint64_t>(offset_high) << 32 | static_cast<std::uint64_t>(offset_mid) << 16 | offset_low;
+            return static_cast<std::uint64_t>(offset_high) << 32 | static_cast<std::uint64_t>(offset_mid) << 16 |
+                   offset_low;
         }
 
         void set_handler(const address handler) {

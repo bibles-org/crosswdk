@@ -30,15 +30,11 @@ namespace intrin {
         asm volatile("pause;");
     }
 
-    template <int N>
-    ALWAYS_INLINE void int_() {
+    template <std::uint8_t N>
+    ALWAYS_INLINE void software_interrupt() {
         asm volatile("int %[vec];"
                      :
                      : [vec] "i"(N));
-    }
-
-    ALWAYS_INLINE void int3() {
-        return int_<3>();
     }
 
     ALWAYS_INLINE void iret() {

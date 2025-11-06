@@ -7,19 +7,20 @@ namespace arch {
         local
     };
 
-    struct segment_selector {
-        MAKE_SCALAR_CONVERTIBLE(segment_selector, std::uint16_t)
+    struct segment_selector : crosswdk::utils::bits16 {
+        using crosswdk::utils::bits16::bits16;
+        using crosswdk::utils::bits16::operator=;
 
-        std::uint16_t requestor_privilege_level : 2 {};
-        table_indicator table                   : 1 {};
-        std::uint16_t index                     : 13 {};
-    } __attribute__((packed));
+        CROSSWDK_BITFIELD_PROXY(value, requestor_privilege_level, std::uint16_t, 0, 2)
+        CROSSWDK_BITFIELD_PROXY1(value, table, table_indicator, 3)
+        CROSSWDK_BITFIELD_PROXY(value, index, std::uint16_t, 4, 15)
+    };
 
-    struct segment_attributes {
-        MAKE_SCALAR_CONVERTIBLE(segment_attributes, std::uint16_t)
+    struct segment_attributes : crosswdk::utils::bits16 {
+        using crosswdk::utils::bits16::bits16;
+        using crosswdk::utils::bits16::operator=;
 
-        // TODO: implement attributes bitfield
-        std::uint16_t value{};
+        // TODO: implement attribute fields
     };
 } // namespace arch
 
