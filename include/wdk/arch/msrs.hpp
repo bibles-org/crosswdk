@@ -13,23 +13,91 @@ namespace arch {
 
         static constexpr std::uint32_t number = 0xC000'0080;
 
-        CROSSWDK_BITFIELD_PROXY1(value, syscall_extensions, bool, 0)
-        CROSSWDK_BITFIELD_PROXY(value, reserved1, std::uint8_t, 1, 7)
-        CROSSWDK_BITFIELD_PROXY1(value, long_mode, bool, 8)
-        CROSSWDK_BITFIELD_PROXY1(value, reserved2, bool, 9)
-        CROSSWDK_BITFIELD_PROXY1(value, long_mode_active, bool, 10)
-        CROSSWDK_BITFIELD_PROXY1(value, no_execute, bool, 11)
-        CROSSWDK_BITFIELD_PROXY1(value, secure_virtual_machine, bool, 12)
-        CROSSWDK_BITFIELD_PROXY1(value, long_mode_segment_limit, bool, 13)
-        CROSSWDK_BITFIELD_PROXY1(value, fast_fxsave_fxrstor, bool, 14)
-        CROSSWDK_BITFIELD_PROXY1(value, translation_cache_extension, bool, 15)
-        CROSSWDK_BITFIELD_PROXY1(value, execute_only_pte_extension, bool, 16) // amd64 xotext
-        CROSSWDK_BITFIELD_PROXY1(value, mcommit, bool, 17)
-        CROSSWDK_BITFIELD_PROXY1(value, interruptible_wbinvd_wbnoinvd, bool, 18)
-        CROSSWDK_BITFIELD_PROXY1(value, reserved3, bool, 19)
-        CROSSWDK_BITFIELD_PROXY1(value, upper_address_ignore, bool, 20)
-        CROSSWDK_BITFIELD_PROXY1(value, auto_ibrs, bool, 21)
-        CROSSWDK_BITFIELD_PROXY(value, reserved4, std::uint64_t, 22, 63)
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 0> syscall_extensions_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 1, 7> reserved1_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 8> long_mode_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 9> reserved2_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 10> long_mode_active_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 11> no_execute_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 12> secure_virtual_machine_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 13> long_mode_segment_limit_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 14> fast_fxsave_fxrstor_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 15> translation_cache_extension_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 16> execute_only_pte_extension_; // amd64 xotext
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 17> mcommit_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 18> interruptible_wbinvd_wbnoinvd_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 19> reserved3_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 20> upper_address_ignore_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 21> auto_ibrs_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 22, 63> reserved4_;
+
+        auto syscall_extensions(this auto&& self) noexcept {
+            return self[syscall_extensions_];
+        }
+
+        auto reserved1(this auto&& self) noexcept {
+            return self[reserved1_];
+        }
+
+        auto long_mode(this auto&& self) noexcept {
+            return self[long_mode_];
+        }
+
+        auto reserved2(this auto&& self) noexcept {
+            return self[reserved2_];
+        }
+
+        auto long_mode_active(this auto&& self) noexcept {
+            return self[long_mode_active_];
+        }
+
+        auto no_execute(this auto&& self) noexcept {
+            return self[no_execute_];
+        }
+
+        auto secure_virtual_machine(this auto&& self) noexcept {
+            return self[secure_virtual_machine_];
+        }
+
+        auto long_mode_segment_limit(this auto&& self) noexcept {
+            return self[long_mode_segment_limit_];
+        }
+
+        auto fast_fxsave_fxrstor(this auto&& self) noexcept {
+            return self[fast_fxsave_fxrstor_];
+        }
+
+        auto translation_cache_extension(this auto&& self) noexcept {
+            return self[translation_cache_extension_];
+        }
+
+        auto execute_only_pte_extension(this auto&& self) noexcept {
+            return self[execute_only_pte_extension_];
+        }
+
+        auto mcommit(this auto&& self) noexcept {
+            return self[mcommit_];
+        }
+
+        auto interruptible_wbinvd_wbnoinvd(this auto&& self) noexcept {
+            return self[interruptible_wbinvd_wbnoinvd_];
+        }
+
+        auto reserved3(this auto&& self) noexcept {
+            return self[reserved3_];
+        }
+
+        auto upper_address_ignore(this auto&& self) noexcept {
+            return self[upper_address_ignore_];
+        }
+
+        auto auto_ibrs(this auto&& self) noexcept {
+            return self[auto_ibrs_];
+        }
+
+        auto reserved4(this auto&& self) noexcept {
+            return self[reserved4_];
+        }
     };
 
     // virtual machine host save physical address as per the AMD manual
@@ -68,7 +136,11 @@ namespace arch {
 
         static constexpr std::uint32_t number = 0xC000'00E7;
 
-        CROSSWDK_BITFIELD_PROXY(value, max_core_clocks_counter, std::uint64_t, 0, 63)
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 63> max_core_clocks_counter_;
+
+        auto actual_core_clocks_counter(this auto&& self) noexcept {
+            return self[max_core_clocks_counter_];
+        }
     };
 
     // actual performance
@@ -78,7 +150,11 @@ namespace arch {
 
         static constexpr std::uint32_t number = 0xC000'00E8;
 
-        CROSSWDK_BITFIELD_PROXY(value, actual_core_clocks_counter, std::uint64_t, 0, 63)
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 63> actual_core_clocks_counter_;
+
+        auto actual_core_clocks_counter(this auto&& self) noexcept {
+            return self[actual_core_clocks_counter_];
+        }
     };
 
     // instructions retired
@@ -88,8 +164,16 @@ namespace arch {
 
         static constexpr std::uint32_t number = 0xC000'00E9;
 
-        CROSSWDK_BITFIELD_PROXY(value, instructions_retired_counter, std::uint64_t, 0, 47)
-        CROSSWDK_BITFIELD_PROXY(value, reserved, std::uint16_t, 48, 63)
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 47> instructions_retired_counter_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 48, 63> reserved_;
+
+        auto instructions_retired_counter(this auto&& self) noexcept {
+            return self[instructions_retired_counter_];
+        }
+
+        auto reserved(this auto&& self) noexcept {
+            return self[reserved_];
+        }
     };
 
     struct fs_base : crosswdk::utils::bits64 {
@@ -119,8 +203,16 @@ namespace arch {
 
         static constexpr std::uint32_t number = 0xC000'0103;
 
-        CROSSWDK_BITFIELD_PROXY(value, auxiliary_tsc_data, std::uint32_t, 0, 31)
-        CROSSWDK_BITFIELD_PROXY(value, reserved, std::uint32_t, 32, 63)
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 0, 31> auxiliary_tsc_data_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 31, 63> reserved_;
+
+        auto auxiliary_tsc_data(this auto&& self) noexcept {
+            return self[auxiliary_tsc_data_];
+        }
+
+        auto reserved(this auto&& self) noexcept {
+            return self[reserved_];
+        }
     };
 } // namespace arch
 

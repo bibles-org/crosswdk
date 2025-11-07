@@ -11,9 +11,21 @@ namespace arch {
         using crosswdk::utils::bits16::bits16;
         using crosswdk::utils::bits16::operator=;
 
-        CROSSWDK_BITFIELD_PROXY(value, requestor_privilege_level, std::uint16_t, 0, 2)
-        CROSSWDK_BITFIELD_PROXY1(value, table, table_indicator, 3)
-        CROSSWDK_BITFIELD_PROXY(value, index, std::uint16_t, 4, 15)
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 0, 2> requestor_privilege_level_;
+        static constexpr crosswdk::utils::bitfield_descriptor<table_indicator, 3> table_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 4, 15> index_;
+
+        auto requestor_privilege_level(this auto&& self) noexcept {
+            return self[requestor_privilege_level_];
+        }
+
+        auto table(this auto&& self) noexcept {
+            return self[table_];
+        }
+
+        auto index(this auto&& self) noexcept {
+            return self[index_];
+        }
     };
 
     struct segment_attributes : crosswdk::utils::bits16 {
