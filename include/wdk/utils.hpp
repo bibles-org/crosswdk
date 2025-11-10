@@ -100,7 +100,9 @@ namespace crosswdk {
                      (std::is_enum_v<std::remove_cv_t<value_type>> &&
                       std::is_unsigned_v<std::underlying_type_t<std::remove_cv_t<value_type>>>))
             )
-        struct bitfield_descriptor {};
+        struct bitfield_descriptor {
+            static_assert((start_index / 64) == (end_index / 64), "Cross-word bitfields are not allowed");
+        };
 
         template <typename T>
         struct bits {
