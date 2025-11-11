@@ -31,71 +31,71 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 21> auto_ibrs_;
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 22, 63> reserved4_;
 
-        auto syscall_extensions(this auto&& self) noexcept {
+        constexpr auto syscall_extensions(this auto&& self) noexcept {
             return self[syscall_extensions_];
         }
 
-        auto reserved1(this auto&& self) noexcept {
+        constexpr auto reserved1(this auto&& self) noexcept {
             return self[reserved1_];
         }
 
-        auto long_mode(this auto&& self) noexcept {
+        constexpr auto long_mode(this auto&& self) noexcept {
             return self[long_mode_];
         }
 
-        auto reserved2(this auto&& self) noexcept {
+        constexpr auto reserved2(this auto&& self) noexcept {
             return self[reserved2_];
         }
 
-        auto long_mode_active(this auto&& self) noexcept {
+        constexpr auto long_mode_active(this auto&& self) noexcept {
             return self[long_mode_active_];
         }
 
-        auto no_execute(this auto&& self) noexcept {
+        constexpr auto no_execute(this auto&& self) noexcept {
             return self[no_execute_];
         }
 
-        auto secure_virtual_machine(this auto&& self) noexcept {
+        constexpr auto secure_virtual_machine(this auto&& self) noexcept {
             return self[secure_virtual_machine_];
         }
 
-        auto long_mode_segment_limit(this auto&& self) noexcept {
+        constexpr auto long_mode_segment_limit(this auto&& self) noexcept {
             return self[long_mode_segment_limit_];
         }
 
-        auto fast_fxsave_fxrstor(this auto&& self) noexcept {
+        constexpr auto fast_fxsave_fxrstor(this auto&& self) noexcept {
             return self[fast_fxsave_fxrstor_];
         }
 
-        auto translation_cache_extension(this auto&& self) noexcept {
+        constexpr auto translation_cache_extension(this auto&& self) noexcept {
             return self[translation_cache_extension_];
         }
 
-        auto execute_only_pte_extension(this auto&& self) noexcept {
+        constexpr auto execute_only_pte_extension(this auto&& self) noexcept {
             return self[execute_only_pte_extension_];
         }
 
-        auto mcommit(this auto&& self) noexcept {
+        constexpr auto mcommit(this auto&& self) noexcept {
             return self[mcommit_];
         }
 
-        auto interruptible_wbinvd_wbnoinvd(this auto&& self) noexcept {
+        constexpr auto interruptible_wbinvd_wbnoinvd(this auto&& self) noexcept {
             return self[interruptible_wbinvd_wbnoinvd_];
         }
 
-        auto reserved3(this auto&& self) noexcept {
+        constexpr auto reserved3(this auto&& self) noexcept {
             return self[reserved3_];
         }
 
-        auto upper_address_ignore(this auto&& self) noexcept {
+        constexpr auto upper_address_ignore(this auto&& self) noexcept {
             return self[upper_address_ignore_];
         }
 
-        auto auto_ibrs(this auto&& self) noexcept {
+        constexpr auto auto_ibrs(this auto&& self) noexcept {
             return self[auto_ibrs_];
         }
 
-        auto reserved4(this auto&& self) noexcept {
+        constexpr auto reserved4(this auto&& self) noexcept {
             return self[reserved4_];
         }
     };
@@ -138,7 +138,7 @@ namespace arch {
 
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 63> max_core_clocks_counter_;
 
-        auto actual_core_clocks_counter(this auto&& self) noexcept {
+        constexpr auto max_core_clocks_counter(this auto&& self) noexcept {
             return self[max_core_clocks_counter_];
         }
     };
@@ -152,7 +152,7 @@ namespace arch {
 
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 63> actual_core_clocks_counter_;
 
-        auto actual_core_clocks_counter(this auto&& self) noexcept {
+        constexpr auto actual_core_clocks_counter(this auto&& self) noexcept {
             return self[actual_core_clocks_counter_];
         }
     };
@@ -167,11 +167,11 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint64_t, 0, 47> instructions_retired_counter_;
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 48, 63> reserved_;
 
-        auto instructions_retired_counter(this auto&& self) noexcept {
+        constexpr auto instructions_retired_counter(this auto&& self) noexcept {
             return self[instructions_retired_counter_];
         }
 
-        auto reserved(this auto&& self) noexcept {
+        constexpr auto reserved(this auto&& self) noexcept {
             return self[reserved_];
         }
     };
@@ -206,11 +206,11 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 0, 31> auxiliary_tsc_data_;
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 31, 63> reserved_;
 
-        auto auxiliary_tsc_data(this auto&& self) noexcept {
+        constexpr auto auxiliary_tsc_data(this auto&& self) noexcept {
             return self[auxiliary_tsc_data_];
         }
 
-        auto reserved(this auto&& self) noexcept {
+        constexpr auto reserved(this auto&& self) noexcept {
             return self[reserved_];
         }
     };

@@ -14,6 +14,7 @@ export namespace memory {
         if (pml4e.present() == false) {
             return nullptr;
         }
+
         const auto pdpe_large = static_cast<arch::pdpe_1gb*>(
                 static_cast<arch::address>(pml4e.page_frame_number()) << 12ull
         )[linear_address.p3_index()];

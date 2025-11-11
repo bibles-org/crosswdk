@@ -16,35 +16,35 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 39, 47> p4_index_;
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 48, 63> sign_;
 
-        auto offset_4kb(this auto&& self) noexcept {
+        constexpr auto offset_4kb(this auto&& self) noexcept {
             return self[offset_4kb_];
         }
 
-        auto offset_2mb(this auto&& self) noexcept {
+        constexpr auto offset_2mb(this auto&& self) noexcept {
             return self[offset_2mb_];
         }
 
-        auto offset_1gb(this auto&& self) noexcept {
+        constexpr auto offset_1gb(this auto&& self) noexcept {
             return self[offset_1gb_];
         }
 
-        auto p1_index(this auto&& self) noexcept {
+        constexpr auto p1_index(this auto&& self) noexcept {
             return self[p1_index_];
         }
 
-        auto p2_index(this auto&& self) noexcept {
+        constexpr auto p2_index(this auto&& self) noexcept {
             return self[p2_index_];
         }
 
-        auto p3_index(this auto&& self) noexcept {
+        constexpr auto p3_index(this auto&& self) noexcept {
             return self[p3_index_];
         }
 
-        auto p4_index(this auto&& self) noexcept {
+        constexpr auto p4_index(this auto&& self) noexcept {
             return self[p4_index_];
         }
 
-        auto sign(this auto&& self) noexcept {
+        constexpr auto sign(this auto&& self) noexcept {
             return self[sign_];
         }
 
@@ -175,7 +175,7 @@ namespace arch {
         friend constexpr auto operator<=>(address lhs, address rhs) {
             return lhs.value <=> rhs.value;
         }
-    } __attribute__((packed));
+    };
 
     struct page_entry_4kb : crosswdk::utils::bits64 {
         using crosswdk::utils::bits64::bits64;
@@ -196,59 +196,59 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 59, 62> memory_protection_key_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 63> execute_disable_;
 
-        auto present(this auto&& self) noexcept {
+        constexpr auto present(this auto&& self) noexcept {
             return self[present_];
         }
 
-        auto write(this auto&& self) noexcept {
+        constexpr auto write(this auto&& self) noexcept {
             return self[write_];
         }
 
-        auto user(this auto&& self) noexcept {
+        constexpr auto user(this auto&& self) noexcept {
             return self[user_];
         }
 
-        auto write_through(this auto&& self) noexcept {
+        constexpr auto write_through(this auto&& self) noexcept {
             return self[write_through_];
         }
 
-        auto cache_disable(this auto&& self) noexcept {
+        constexpr auto cache_disable(this auto&& self) noexcept {
             return self[cache_disable_];
         }
 
-        auto accessed(this auto&& self) noexcept {
+        constexpr auto accessed(this auto&& self) noexcept {
             return self[accessed_];
         }
 
-        auto dirty(this auto&& self) noexcept {
+        constexpr auto dirty(this auto&& self) noexcept {
             return self[dirty_];
         }
 
-        auto page_attribute_table(this auto&& self) noexcept {
+        constexpr auto page_attribute_table(this auto&& self) noexcept {
             return self[page_attribute_table_];
         }
 
-        auto global(this auto&& self) noexcept {
+        constexpr auto global(this auto&& self) noexcept {
             return self[global_];
         }
 
-        auto ignored1(this auto&& self) noexcept {
+        constexpr auto ignored1(this auto&& self) noexcept {
             return self[ignored1_];
         }
 
-        auto page_frame_number(this auto&& self) noexcept {
+        constexpr auto page_frame_number(this auto&& self) noexcept {
             return self[page_frame_number_];
         }
 
-        auto ignored2(this auto&& self) noexcept {
+        constexpr auto ignored2(this auto&& self) noexcept {
             return self[ignored2_];
         }
 
-        auto memory_protection_key(this auto&& self) noexcept {
+        constexpr auto memory_protection_key(this auto&& self) noexcept {
             return self[memory_protection_key_];
         }
 
-        auto execute_disable(this auto&& self) noexcept {
+        constexpr auto execute_disable(this auto&& self) noexcept {
             return self[execute_disable_];
         }
     };
@@ -274,67 +274,67 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 59, 62> memory_protection_key_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 63> execute_disable_;
 
-        auto present(this auto&& self) noexcept {
+        constexpr auto present(this auto&& self) noexcept {
             return self[present_];
         }
 
-        auto write(this auto&& self) noexcept {
+        constexpr auto write(this auto&& self) noexcept {
             return self[write_];
         }
 
-        auto user(this auto&& self) noexcept {
+        constexpr auto user(this auto&& self) noexcept {
             return self[user_];
         }
 
-        auto write_through(this auto&& self) noexcept {
+        constexpr auto write_through(this auto&& self) noexcept {
             return self[write_through_];
         }
 
-        auto cache_disable(this auto&& self) noexcept {
+        constexpr auto cache_disable(this auto&& self) noexcept {
             return self[cache_disable_];
         }
 
-        auto accessed(this auto&& self) noexcept {
+        constexpr auto accessed(this auto&& self) noexcept {
             return self[accessed_];
         }
 
-        auto dirty(this auto&& self) noexcept {
+        constexpr auto dirty(this auto&& self) noexcept {
             return self[dirty_];
         }
 
-        auto page_size(this auto&& self) noexcept {
+        constexpr auto page_size(this auto&& self) noexcept {
             return self[page_size_];
         }
 
-        auto global(this auto&& self) noexcept {
+        constexpr auto global(this auto&& self) noexcept {
             return self[global_];
         }
 
-        auto ignored1(this auto&& self) noexcept {
+        constexpr auto ignored1(this auto&& self) noexcept {
             return self[ignored1_];
         }
 
-        auto page_attribute_table(this auto&& self) noexcept {
+        constexpr auto page_attribute_table(this auto&& self) noexcept {
             return self[page_attribute_table_];
         }
 
-        auto must_be_zero(this auto&& self) noexcept {
+        constexpr auto must_be_zero(this auto&& self) noexcept {
             return self[must_be_zero_];
         }
 
-        auto page_frame_number(this auto&& self) noexcept {
+        constexpr auto page_frame_number(this auto&& self) noexcept {
             return self[page_frame_number_];
         }
 
-        auto ignored2(this auto&& self) noexcept {
+        constexpr auto ignored2(this auto&& self) noexcept {
             return self[ignored2_];
         }
 
-        auto memory_protection_key(this auto&& self) noexcept {
+        constexpr auto memory_protection_key(this auto&& self) noexcept {
             return self[memory_protection_key_];
         }
 
-        auto execute_disable(this auto&& self) noexcept {
+        constexpr auto execute_disable(this auto&& self) noexcept {
             return self[execute_disable_];
         }
     };
@@ -360,67 +360,67 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 59, 62> memory_protection_key_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 63> execute_disable_;
 
-        auto present(this auto&& self) noexcept {
+        constexpr auto present(this auto&& self) noexcept {
             return self[present_];
         }
 
-        auto write(this auto&& self) noexcept {
+        constexpr auto write(this auto&& self) noexcept {
             return self[write_];
         }
 
-        auto user(this auto&& self) noexcept {
+        constexpr auto user(this auto&& self) noexcept {
             return self[user_];
         }
 
-        auto write_through(this auto&& self) noexcept {
+        constexpr auto write_through(this auto&& self) noexcept {
             return self[write_through_];
         }
 
-        auto cache_disable(this auto&& self) noexcept {
+        constexpr auto cache_disable(this auto&& self) noexcept {
             return self[cache_disable_];
         }
 
-        auto accessed(this auto&& self) noexcept {
+        constexpr auto accessed(this auto&& self) noexcept {
             return self[accessed_];
         }
 
-        auto dirty(this auto&& self) noexcept {
+        constexpr auto dirty(this auto&& self) noexcept {
             return self[dirty_];
         }
 
-        auto page_size(this auto&& self) noexcept {
+        constexpr auto page_size(this auto&& self) noexcept {
             return self[page_size_];
         }
 
-        auto global(this auto&& self) noexcept {
+        constexpr auto global(this auto&& self) noexcept {
             return self[global_];
         }
 
-        auto ignored1(this auto&& self) noexcept {
+        constexpr auto ignored1(this auto&& self) noexcept {
             return self[ignored1_];
         }
 
-        auto page_attribute_table(this auto&& self) noexcept {
+        constexpr auto page_attribute_table(this auto&& self) noexcept {
             return self[page_attribute_table_];
         }
 
-        auto must_be_zero(this auto&& self) noexcept {
+        constexpr auto must_be_zero(this auto&& self) noexcept {
             return self[must_be_zero_];
         }
 
-        auto page_frame_number(this auto&& self) noexcept {
+        constexpr auto page_frame_number(this auto&& self) noexcept {
             return self[page_frame_number_];
         }
 
-        auto ignored2(this auto&& self) noexcept {
+        constexpr auto ignored2(this auto&& self) noexcept {
             return self[ignored2_];
         }
 
-        auto memory_protection_key(this auto&& self) noexcept {
+        constexpr auto memory_protection_key(this auto&& self) noexcept {
             return self[memory_protection_key_];
         }
 
-        auto execute_disable(this auto&& self) noexcept {
+        constexpr auto execute_disable(this auto&& self) noexcept {
             return self[execute_disable_];
         }
     };
