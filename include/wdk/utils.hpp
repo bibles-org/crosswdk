@@ -127,6 +127,14 @@ namespace crosswdk {
 
             constexpr bool operator==(const bits&) const = default;
 
+            friend constexpr bool operator==(const bits& a, T b) noexcept {
+                return a.value == b;
+            }
+
+            friend constexpr bool operator==(T a, const bits& b) noexcept {
+                return a == b.value;
+            }
+
             template <typename value_type, std::size_t start_index, std::size_t end_index>
             constexpr auto
             operator[](this auto&& self, const bitfield_descriptor<value_type, start_index, end_index>&) noexcept
