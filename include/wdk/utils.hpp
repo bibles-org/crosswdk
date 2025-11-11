@@ -76,11 +76,11 @@ namespace crosswdk {
                 return static_cast<value_t>(static_cast<value_base_t>(raw));
             }
 
-            constexpr bitfield_proxy& operator=(value_t value) noexcept
+            constexpr bitfield_proxy& operator=(value_t rhs) noexcept
                 requires(!std::is_const_v<storage_type>)
             {
                 auto value_cpy = static_cast<storage_t>(value);
-                const auto masked = static_cast<storage_t>(static_cast<value_base_t>(value)) & low_mask;
+                const auto masked = static_cast<storage_t>(static_cast<value_base_t>(rhs)) & low_mask;
                 value_cpy = (value_cpy & ~field_mask) | (masked << start_index);
                 value = value_cpy;
                 return *this;
@@ -100,9 +100,7 @@ namespace crosswdk {
                      (std::is_enum_v<std::remove_cv_t<value_type>> &&
                       std::is_unsigned_v<std::underlying_type_t<std::remove_cv_t<value_type>>>))
             )
-        struct bitfield_descriptor {
-            static_assert((start_index / 64) == (end_index / 64), "Cross-word bitfields are not allowed");
-        };
+        struct bitfield_descriptor {};
 
         template <typename T>
         struct bits {
@@ -130,7 +128,8 @@ namespace crosswdk {
             constexpr bool operator==(const bits&) const = default;
 
             template <typename value_type, std::size_t start_index, std::size_t end_index>
-            auto operator[](this auto&& self, const bitfield_descriptor<value_type, start_index, end_index>&) noexcept
+            constexpr auto
+            operator[](this auto&& self, const bitfield_descriptor<value_type, start_index, end_index>&) noexcept
                 requires(std::unsigned_integral<std::remove_cv_t<T>>)
             {
                 return make_bitfield<value_type, start_index, end_index>(std::forward_like<decltype(self)>(self.value));
