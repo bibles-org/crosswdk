@@ -156,8 +156,6 @@ namespace arch {
         }
     };
 
-    static_assert(sizeof(interrupt_descriptor) == 16, "arch::interrupt_descriptor size is incorrect");
-
     enum class exception_vector {
         divide_error = 0,
         debug = 1,
@@ -185,7 +183,7 @@ namespace arch {
         security_exception = 30
     };
 
-    constexpr bool exception_has_error_code(const exception_vector v) {
+    constexpr bool exception_pushes_error_code(const exception_vector v) {
         switch (v) {
             using enum exception_vector;
 

@@ -147,8 +147,8 @@ namespace arch {
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 10> os_xmm_exception_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 11> usermode_instruction_prevention_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 12> linear_address_57bits_;
-        static constexpr crosswdk::utils::bitfield_descriptor<bool, 13> vmx_;
-        static constexpr crosswdk::utils::bitfield_descriptor<bool, 14> smx_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 13> virtual_machine_extensions_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 14> safer_mode_extensions_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 15> reserved1_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 16> fs_gs_base_;
         static constexpr crosswdk::utils::bitfield_descriptor<bool, 17> process_context_identifier_;
@@ -213,12 +213,12 @@ namespace arch {
             return self[linear_address_57bits_];
         }
 
-        constexpr auto vmx(this auto&& self) noexcept {
-            return self[vmx_];
+        constexpr auto virtual_machine_extensions(this auto&& self) noexcept {
+            return self[virtual_machine_extensions_];
         }
 
-        constexpr auto smx(this auto&& self) noexcept {
-            return self[smx_];
+        constexpr auto safer_mode_extensions(this auto&& self) noexcept {
+            return self[safer_mode_extensions_];
         }
 
         constexpr auto reserved1(this auto&& self) noexcept {
