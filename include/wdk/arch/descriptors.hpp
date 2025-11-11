@@ -9,7 +9,7 @@ namespace arch {
     template <typename T>
     struct descriptor_table_first {
         std::uint16_t limit{};
-        address base{};
+        __attribute__((packed)) address base{};
 
         static constexpr std::size_t descriptor_size = sizeof(T); // long mode focused
 
@@ -66,30 +66,95 @@ namespace arch {
     using interrupt_descriptor_table = descriptor_table_first<struct interrupt_descriptor>;
 
     struct interrupt_descriptor {
-        std::uint16_t offset_low{};
-        std::uint16_t selector{};
-        std::uint8_t interrupt_stack_table_index : 3 {};
-        std::uint8_t reserved1                   : 5 {};
-        std::uint8_t type                        : 4 {};
-        std::uint8_t must_be_zero                : 1 {};
-        std::uint8_t descriptor_privilege_level  : 2 {};
-        std::uint8_t present                     : 1 {};
-        std::uint16_t offset_mid{};
-        std::uint32_t offset_high{};
-        std::uint32_t reserved2 : 32 {};
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 0, 15> offset_low16_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 16, 31> selector_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 32, 34> interrupt_stack_table_index_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 35, 39> reserved1_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 40, 43> type_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 44> must_be_zero_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint8_t, 45, 46> descriptor_privilege_level_;
+        static constexpr crosswdk::utils::bitfield_descriptor<bool, 47> present_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint16_t, 48, 63> offset_mid16_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 64, 95> offset_high32_;
+        static constexpr crosswdk::utils::bitfield_descriptor<std::uint32_t, 96, 127> reserved2_;
 
-        address get_handler() const {
-            return static_cast<std::uint64_t>(offset_high) << 32 | static_cast<std::uint64_t>(offset_mid) << 16 |
-                   offset_low;
+    private:
+        crosswdk::utils::bits64 low{};
+        crosswdk::utils::bits64 high{};
+
+    public:
+        template <typename value_type, std::size_t start_index, std::size_t end_index>
+        constexpr auto operator[](
+                this auto&& self,
+                const crosswdk::utils::bitfield_descriptor<value_type, start_index, end_index>& descriptor
+        ) noexcept
+            requires((start_index / 64) == (end_index / 64) && end_index < 128)
+        {
+            if constexpr (end_index < 64) {
+                return self.low[descriptor];
+            } else {
+                return self.high[crosswdk::utils::bitfield_descriptor<value_type, start_index - 64, end_index - 64>{}];
+            }
         }
 
-        void set_handler(const address handler) {
-            const auto addr = static_cast<std::uint64_t>(handler);
-            offset_low = addr & 0xFFFF;
-            offset_mid = (addr >> 16) & 0xFFFF;
-            offset_high = (addr >> 32) & 0xFFFFFFFF;
+        constexpr auto offset_low16(this auto&& self) noexcept {
+            return self[offset_low16_];
         }
-    } __attribute__((packed));
+
+        constexpr auto selector(this auto&& self) noexcept {
+            return self[selector_];
+        }
+
+        constexpr auto interrupt_stack_table_index(this auto&& self) noexcept {
+            return self[interrupt_stack_table_index_];
+        }
+
+        constexpr auto reserved1(this auto&& self) noexcept {
+            return self[reserved1_];
+        }
+
+        constexpr auto type(this auto&& self) noexcept {
+            return self[type_];
+        }
+
+        constexpr auto must_be_zero(this auto&& self) noexcept {
+            return self[must_be_zero_];
+        }
+
+        constexpr auto descriptor_privilege_level(this auto&& self) noexcept {
+            return self[descriptor_privilege_level_];
+        }
+
+        constexpr auto present(this auto&& self) noexcept {
+            return self[present_];
+        }
+
+        constexpr auto offset_mid16(this auto&& self) noexcept {
+            return self[offset_mid16_];
+        }
+
+        constexpr auto offset_high32(this auto&& self) noexcept {
+            return self[offset_high32_];
+        }
+
+        constexpr auto reserved2(this auto&& self) noexcept {
+            return self[reserved2_];
+        }
+
+        constexpr address get_handler() const noexcept {
+            const auto high32 = static_cast<std::uint64_t>(offset_high32());
+            const auto mid16 = static_cast<std::uint64_t>(offset_mid16());
+            const auto low16 = static_cast<std::uint64_t>(offset_low16());
+            return (high32 << 32) | (mid16 << 16) | low16;
+        }
+
+        constexpr void set_handler(const address handler) noexcept {
+            const auto handler_u64 = static_cast<std::uint64_t>(handler);
+            offset_low16() = static_cast<std::uint16_t>(handler_u64);
+            offset_mid16() = static_cast<std::uint16_t>(handler_u64 >> 16);
+            offset_high32() = static_cast<std::uint32_t>(handler_u64 >> 32);
+        }
+    };
 
     static_assert(sizeof(interrupt_descriptor) == 16, "arch::interrupt_descriptor size is incorrect");
 
