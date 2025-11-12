@@ -24,6 +24,30 @@ if (NOT WDK_LIB_FILES)
     message(FATAL_ERROR "No WDK .lib files found in the specified paths.")
 endif ()
 
+if (DEFINED ENV{LIBCXX_FREESTANDING_INSTALL_DIR})
+    set(LIBCXX_INSTALL_DIR "$ENV{LIBCXX_FREESTANDING_INSTALL_DIR}")
+    message(STATUS "Found freestanding libc++ at: ${LIBCXX_INSTALL_DIR}")
+
+    set(LIBCXX_INCLUDE_DIR "${LIBCXX_INSTALL_DIR}/include/c++/v1")
+    set(LIBCXX_LIBRARY_PATH "${LIBCXX_INSTALL_DIR}/lib/libc++.a")
+
+    if (NOT EXISTS "${LIBCXX_INCLUDE_DIR}")
+        message(FATAL_ERROR "libc++ include directory not found: ${LIBCXX_INCLUDE_DIR}")
+    endif()
+    if (NOT EXISTS "${LIBCXX_LIBRARY_PATH}")
+        message(FATAL_ERROR "libc++ static library not found: ${LIBCXX_LIBRARY_PATH}")
+    endif()
+
+    add_library(libcxx::freestanding STATIC IMPORTED)
+    set_target_properties(libcxx::freestanding PROPERTIES
+        IMPORTED_LOCATION "${LIBCXX_LIBRARY_PATH}"
+        INTERFACE_INCLUDE_DIRECTORIES "${LIBCXX_INCLUDE_DIR}"
+    )
+
+else()
+    message(FATAL_ERROR "LIBCXX_FREESTANDING_INSTALL_DIR is not defined")
+endif()
+
 list(SORT WDK_NTOSKRNL_LIB COMPARE NATURAL)
 
 # import targets for all the libraries present in WDK_LIB_FILES
@@ -74,6 +98,13 @@ set(WDK_COMPILE_FLAGS
         -Wstrict-aliasing=2
 )
 
+if (DEFINED ENV{LIBCXX_FREESTANDING_INSTALL_DIR})
+    list(APPEND WDK_COMPILE_FLAGS
+            -nostdlibinc
+            -nostdinc++
+    )
+endif()
+
 if (CMAKE_LINKER MATCHES ".*lld-link.*")
     set(WDK_LINK_FLAGS
             -nostdlib
@@ -116,9 +147,9 @@ function(wdk_add_driver target_name)
     if(NOT WDK_DRIVER_SOURCES AND WDK_DRIVER_UNPARSED_ARGUMENTS)
         set(WDK_DRIVER_SOURCES ${WDK_DRIVER_UNPARSED_ARGUMENTS})
     endif()
- 
+
     add_executable(${target_name}
-        ${WDK_DRIVER_SOURCES} 
+        ${WDK_DRIVER_SOURCES}
         ${CROSSWDK_DIR}/main.cpp
     )
 
@@ -141,9 +172,19 @@ function(wdk_add_driver target_name)
     )
 
     target_link_options(${target_name} PRIVATE ${WDK_LINK_FLAGS})
-    target_link_libraries(${target_name} WDK::NTOSKRNL)
+    target_link_libraries(${target_name}
+        WDK::NTOSKRNL
+    )
+
+    if (DEFINED ENV{LIBCXX_FREESTANDING_INSTALL_DIR})
+        target_link_libraries(${target_name}
+            libcxx::freestanding
+        )
+    endif()
 
     target_include_directories(${target_name} SYSTEM PRIVATE
+        "${LIBCXX_INCLUDE_DIR}"
+        "${CROSSWDK_DIR}/include/wdk/cpp"
         "${CROSSWDK_DIR}/include"
     )
 endfunction()
