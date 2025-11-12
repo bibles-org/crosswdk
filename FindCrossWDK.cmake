@@ -183,6 +183,8 @@ function(wdk_add_driver target_name)
     endif()
 
     target_include_directories(${target_name} SYSTEM PRIVATE
+        "${LIBCXX_INCLUDE_DIR}"
+        "${CROSSWDK_DIR}/include/wdk/cpp"
         "${CROSSWDK_DIR}/include"
     )
 endfunction()

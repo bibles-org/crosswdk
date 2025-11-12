@@ -1,3 +1,5 @@
+#include <support.h>
+
 #include <wdk/wdk.hpp>
 
 using ctor_func = void (*)();
