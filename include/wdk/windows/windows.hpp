@@ -11,13 +11,19 @@ namespace win {
     }
 
     template <typename T1, typename T2, typename... Ts>
-    requires utils::is_enum_or_integral<T1> && utils::is_enum_or_integral<T2>
-    ALWAYS_INLINE ntstatus
-    print_ex(T1 component_id, T2 level, const char* fmt, Ts&&... args) {
-            return DbgPrintEx(static_cast<std::uint32_t>(component_id),
-                              static_cast<std::uint32_t>(level),
-                              fmt, std::forward<Ts>(args)...);
-        }
+        requires utils::is_enum_or_integral<T1> && utils::is_enum_or_integral<T2>
+    ALWAYS_INLINE ntstatus print_ex(T1 component_id, T2 level, const char* fmt, Ts&&... args) {
+        return DbgPrintEx(
+                static_cast<std::uint32_t>(component_id), static_cast<std::uint32_t>(level), fmt,
+                std::forward<Ts>(args)...
+        );
+    }
+
+    template <typename T1, typename T2>
+        requires utils::is_enum_or_integral<T1> && utils::is_enum_or_integral<T2>
+    ALWAYS_INLINE ntstatus vprint_ex(T1 component_id, T2 level, const char* fmt, va_list args) {
+        return vDbgPrintEx(static_cast<std::uint32_t>(component_id), static_cast<std::uint32_t>(level), fmt, args);
+    }
 
     ALWAYS_INLINE bool send_nmi(const std::uint32_t processor_index) {
         win::AFFINITY_EX affinity{};
@@ -41,13 +47,5 @@ namespace win {
         return true;
     }
 } // namespace win
-
-inline void* operator new(const std::size_t size) {
-    return win::ExAllocatePoolWithTag(win::pool_type::NonPagedPoolNx, size, 0x44434241);
-}
-
-inline void operator delete(void* ptr) {
-    win::ExFreePool(ptr);
-}
 
 #endif // WDK_WINDOWS_HPP

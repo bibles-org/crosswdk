@@ -151,6 +151,7 @@ function(wdk_add_driver target_name)
     add_executable(${target_name}
         ${WDK_DRIVER_SOURCES}
         ${CROSSWDK_DIR}/main.cpp
+        ${CROSSWDK_DIR}/support.cpp
     )
 
     target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})

@@ -3,6 +3,8 @@
 #define WDK_WINDOWS_DECLARATIONS_HPP
 #include "types.hpp"
 
+#include <cstdarg>
+
 namespace win {
     // variables
     extern "C" {
@@ -19,6 +21,8 @@ namespace win {
     // output parameters are taken by reference when they are expected, taken by a pointer when optional and defaulted
     // if applicable
     ntstatus DbgPrint(const char* fmt, ...);
+
+    ntstatus vDbgPrintEx(std::uint32_t component_id, std::uint32_t level, const char* fmt, va_list args);
 
     ntstatus DbgPrintEx(std::uint32_t component_id, std::uint32_t level, const char* fmt, ...);
 
@@ -47,6 +51,22 @@ namespace win {
     ntstatus RtlGetVersion(OSVERSIONINFO& version_output);
 
     arch::address RtlFindExportedRoutineByName(arch::address image_base_address, const char* export_name);
+
+    void RtlCopyMemory(void* destination, const void* source, std::size_t length);
+
+    void RtlMoveMemory(void* destination, const void* source, std::size_t length);
+
+    void RtlFillMemory(void* destination, std::size_t length, std::uint8_t fill);
+
+    std::size_t RtlCompareMemory(const void* source1, const void* source2, std::size_t length);
+
+    void KeBugCheckEx(
+        std::uint32_t bug_check_code,
+        std::uintptr_t arg1,
+        std::uintptr_t arg2,
+        std::uintptr_t arg3,
+        std::uintptr_t arg4
+    );
     } // extern "C"
 } // namespace win
 #endif // WDK_WINDOWS_DECLARATIONS_HPP
