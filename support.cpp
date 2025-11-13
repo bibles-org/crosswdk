@@ -8,7 +8,7 @@ constexpr auto pool_tag = static_cast<std::uint32_t>('ppck');
 
 extern "C" {
 
-void* malloc(wdk_size_t size) {
+void* malloc(size_t size) {
     if (size == 0) {
         size = 1;
     }
@@ -21,8 +21,8 @@ void free(void* ptr) {
     }
 }
 
-void* calloc(wdk_size_t num, wdk_size_t size) {
-    const wdk_size_t total_size = num * size;
+void* calloc(size_t num, size_t size) {
+    const size_t total_size = num * size;
     if (total_size == 0) {
         return nullptr;
     }
@@ -33,7 +33,7 @@ void* calloc(wdk_size_t num, wdk_size_t size) {
     return ptr;
 }
 
-void* realloc(void* ptr, wdk_size_t new_size) {
+void* realloc(void* ptr, size_t new_size) {
     if (ptr == nullptr) {
         return malloc(new_size);
     }
@@ -45,25 +45,25 @@ void* realloc(void* ptr, wdk_size_t new_size) {
     return nullptr;
 }
 
-void* memcpy(void* dst, const void* src, wdk_size_t n) {
+void* memcpy(void* dst, const void* src, size_t n) {
     win::RtlCopyMemory(dst, src, n);
     return dst;
 }
 
-void* memmove(void* dst, const void* src, wdk_size_t n) {
+void* memmove(void* dst, const void* src, size_t n) {
     win::RtlMoveMemory(dst, src, n);
     return dst;
 }
 
-void* memset(void* dst, int ch, wdk_size_t n) {
+void* memset(void* dst, int ch, size_t n) {
     win::RtlFillMemory(dst, n, static_cast<unsigned char>(ch));
     return dst;
 }
 
-int memcmp(const void* a, const void* b, wdk_size_t n) {
+int memcmp(const void* a, const void* b, size_t n) {
     const auto* p1 = static_cast<const unsigned char*>(a);
     const auto* p2 = static_cast<const unsigned char*>(b);
-    for (wdk_size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
         if (p1[i] != p2[i]) {
             return p1[i] < p2[i] ? -1 : 1;
         }
@@ -71,9 +71,9 @@ int memcmp(const void* a, const void* b, wdk_size_t n) {
     return 0;
 }
 
-void* memchr(const void* s, int c, wdk_size_t n) {
+void* memchr(const void* s, int c, size_t n) {
     auto p = static_cast<const unsigned char*>(s);
-    for (wdk_size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i) {
         if (p[i] == static_cast<unsigned char>(c)) {
             return const_cast<void*>(static_cast<const void*>(p + i));
         }
@@ -131,8 +131,8 @@ wchar_t* wcsstr(const wchar_t* s, const wchar_t* needle) {
     return nullptr;
 }
 
-wchar_t* wmemchr(const wchar_t* s, wchar_t c, wdk_size_t n) {
-    for (wdk_size_t i = 0; i < n; ++i) {
+wchar_t* wmemchr(const wchar_t* s, wchar_t c, size_t n) {
+    for (size_t i = 0; i < n; ++i) {
         if (s[i] == c) {
             return const_cast<wchar_t*>(s + i);
         }
