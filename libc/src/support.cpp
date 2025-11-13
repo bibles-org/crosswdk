@@ -1,4 +1,4 @@
-#include <wdk/cpp/support.h>
+#include <support.h>
 #include <wdk/windows/windows.hpp>
 
 #include <cstdarg>

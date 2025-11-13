@@ -148,7 +148,8 @@ function(wdk_add_driver target_name)
     add_executable(${target_name}
         ${WDK_DRIVER_SOURCES}
         ${CROSSWDK_DIR}/main.cpp
-        ${CROSSWDK_DIR}/support.cpp
+
+        ${CROSSWDK_DIR}/libc/src/support.cpp
     )
 
     target_compile_options(${target_name} PRIVATE ${WDK_COMPILE_FLAGS})
@@ -182,7 +183,7 @@ function(wdk_add_driver target_name)
 
     target_include_directories(${target_name} SYSTEM PRIVATE
         "${LIBCXX_INCLUDE_DIR}"
-        "${CROSSWDK_DIR}/include/wdk/cpp"
+        "${CROSSWDK_DIR}/libc/include"
         "${CROSSWDK_DIR}/include"
     )
 endfunction()

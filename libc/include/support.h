@@ -1,5 +1,5 @@
-#ifndef WDK_LIBCXX_SUPPORT_HPP
-#define WDK_LIBCXX_SUPPORT_HPP
+#ifndef WDK_LIBC_SUPPORT_H
+#define WDK_LIBC_SUPPORT_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,4 +52,4 @@ int remove(const char* pathname);
 }
 #endif
 
-#endif /* WDK_LIBCXX_SUPPORT_HPP */
+#endif /* WDK_LIBC_SUPPORT_H */
