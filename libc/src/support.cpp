@@ -158,8 +158,16 @@ void __cxa_pure_virtual() {
 
 } // extern "C"
 
-void std::__libcpp_verbose_abort(char const*, ...) noexcept {
-    __builtin_trap();
+void std::__libcpp_verbose_abort(char const* format, ...) noexcept {
+    va_list args;
+    va_start(args, format);
+    win::vprint_ex(0, 0, format, args);
+    va_end(args);
+
+    win::KeBugCheckEx(0xDEADBEEF, 2, reinterpret_cast<uintptr_t>(format), 0, 0);
+
+    // to satisfy noreturn
+    std::unreachable();
 }
 
 void* operator new(std::size_t size) {
