@@ -148,17 +148,6 @@ int remove(const char*) {
     return -1;
 }
 
-struct FILE_dummy {};
-
-FILE_dummy* __acrt_iob_func(unsigned) {
-    return nullptr;
-}
-
-int vfprintf(FILE_dummy*, const char* format, va_list args) {
-    win::vprint_ex(0, 0, format, args);
-    return 0;
-}
-
 void abort() {
     win::KeBugCheckEx(0xDEADBEEF, 0, 0, 0, 0);
 }
@@ -169,6 +158,9 @@ void __cxa_pure_virtual() {
 
 } // extern "C"
 
+void std::__libcpp_verbose_abort(char const*, ...) noexcept {
+    __builtin_trap();
+}
 
 void* operator new(std::size_t size) {
     return malloc(size);
